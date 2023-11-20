@@ -16,9 +16,9 @@ public class ConnectionDB {
     
     protected Connection conexion;
     private final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    private final String DB_URL = "jdbc::mysql://localhost/bd_asistencia";
+    private final String DB_URL = "jdbc:mysql://localhost:3306/bd_asistencia";
     
-    private final String USER = "admin";
+    private final String USER = "root";
     private final String PASS = "admin";
     
     public void Conectar() throws SQLException, ClassNotFoundException{

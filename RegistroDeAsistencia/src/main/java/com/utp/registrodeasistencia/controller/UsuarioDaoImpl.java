@@ -4,11 +4,10 @@
  */
 package com.utp.registrodeasistencia.controller;
 
-import com.mysql.cj.x.protobuf.MysqlxNotice;
 import com.utp.registrodeasistencia.interfaces.UsuarioDao;
 import com.utp.registrodeasistencia.model.Usuario;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.ResultSet;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,10 +34,52 @@ public class UsuarioDaoImpl extends ConnectionDB implements UsuarioDao{
                 st.setString(7, usuario.getRol());                
                 st.executeUpdate();
         }catch(Exception ex){
-            logger.log(Level.SEVERE, "ERROR EN LA CLASE REGISTRAR - USUARIO", ex);
+            logger.log(Level.SEVERE, "Error en el metodo Registrar Usuario", ex);
         } finally{
             this.Cerrar();
         }
+    }
+    
+    @Override
+    public Usuario obtenerUsuarioPorDni(String dni) throws Exception{
+        Usuario usuario = null;
+        try {
+            this.Conectar();
+            String sql = "SELECT * FROM usuario WHERE dni = ?";
+            
+            try (PreparedStatement st = this.conexion.prepareStatement(sql)) {
+                st.setString(1, dni);
+                
+                try (ResultSet resultSet = st.executeQuery()) {
+                    if (resultSet.next()) {
+                        usuario = new Usuario();
+                        usuario.setDni(resultSet.getString("dni"));
+                        usuario.setEstado(resultSet.getBoolean("estado"));
+                        usuario.setContrasenia(resultSet.getString("contrasenia"));
+                        usuario.setNombre(resultSet.getString("nombre"));
+                        usuario.setApellido(resultSet.getString("apellido"));
+                        usuario.setCorreo(resultSet.getString("correo"));
+                        usuario.setRol(resultSet.getString("rol"));
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            logger.log(Level.SEVERE, "ERROR AL OBTENER USUARIO POR DNI", ex);
+        } finally {
+            this.Cerrar();
+        }
+        return usuario;
+    }
+    
+    @Override
+    public String iniciarSesion(Usuario usuario)throws Exception{
+        Usuario usuarioBD = obtenerUsuarioPorDni(usuario.getDni());
+        if(usuarioBD != null && (usuarioBD.getContrasenia().equals(usuario.getContrasenia()))){
+            String rol = usuarioBD.getRol() != null ? usuarioBD.getRol() :  "";
+            return rol;
+        }else{
+            return "";
+        }       
     }
 
     @Override

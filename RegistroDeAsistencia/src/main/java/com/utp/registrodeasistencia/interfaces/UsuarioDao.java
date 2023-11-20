@@ -16,4 +16,6 @@ public interface UsuarioDao {
     public void modificar(Usuario usuario)throws Exception;
     public void desactivar(Usuario usuario)throws Exception;
     public List<Usuario> listar()throws Exception;
+    public String iniciarSesion(Usuario usuario)throws Exception;
+    public Usuario obtenerUsuarioPorDni(String dni)throws Exception;
 }

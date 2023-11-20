@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 public class Menu extends javax.swing.JFrame implements Runnable {
 
     private String datoRol;
-    public static String usuario;
+    public static String dni;
     public static String contrasenia;
 
     String hora, minutos, segundos, ampm;
@@ -34,7 +34,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         setDate();
         InitContent();
         Main main = new Main();
-        this.usuario = main.usuario;
+        this.dni = main.dni;
         this.contrasenia = main.contrasenia;
         this.datoRol = main.rol;
         t1 = new Thread(this);
@@ -433,7 +433,9 @@ public class Menu extends javax.swing.JFrame implements Runnable {
     }//GEN-LAST:event_btnGestionDeUsuariosActionPerformed
 
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
-        // TODO add your handling code here:
+        Main main = new Main();
+        main.setVisible(Boolean.TRUE);
+        this.setVisible(Boolean.FALSE);
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
 
     /**

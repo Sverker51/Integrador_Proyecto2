@@ -6,6 +6,11 @@ package com.utp.registrodeasistencia.view;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.intellijthemes.materialthemeuilite.FlatMaterialLighterIJTheme;
+import com.utp.registrodeasistencia.controller.UsuarioDaoImpl;
+import com.utp.registrodeasistencia.model.Usuario;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
 /**
@@ -13,7 +18,7 @@ import javax.swing.UIManager;
  * @author Miguel
  */
 public class Main extends javax.swing.JFrame {
-    public static String usuario;
+    public static String dni;
     public static String contrasenia;
     public static String rol;
     /**
@@ -155,17 +160,43 @@ public class Main extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        usuario = txtUsuario.getText() == null ? "" : txtUsuario.getText();
+        dni = txtUsuario.getText() == null ? "" : txtUsuario.getText();
         char[] passwordChars = txtContrasenia.getPassword();
         contrasenia = new String(passwordChars) == null ? "" : new String(passwordChars);
-        rol = "Administrador";
+        //rol = "Administrador";
         //rol = "Colaborador";
-        Menu menu = new Menu();
-        menu.asignarRol(rol);
-        menu.setVisible(true);
-        this.setVisible(false);
+        
+        try {
+            if(!dni.isEmpty() && !contrasenia.isEmpty()){
+                Usuario usuario = new Usuario();
+                usuario.setDni(dni);
+                usuario.setContrasenia(contrasenia);
+                UsuarioDaoImpl dao = new UsuarioDaoImpl();        
+                rol = dao.iniciarSesion(usuario);
+                if(rol != null && (rol.toUpperCase().equals("ADMINISTRADOR") || rol.toUpperCase().equals("COLABORADOR"))){
+                    Menu menu = new Menu();
+                    menu.asignarRol(rol);
+                    menu.setVisible(true);
+                    this.setVisible(false);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Dni y/o Contraseña invalido. Intente nuevamente!", "ERROR AL INICIAR SESION", JOptionPane.INFORMATION_MESSAGE);
+                    limpiarFormulario();
+                }
+            }else{
+                JOptionPane.showMessageDialog(null, "Dni y/o Contraseña invalido. Intente nuevamente!", "ERROR AL INICIAR SESION", JOptionPane.INFORMATION_MESSAGE);
+                limpiarFormulario();
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+        }   
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    void limpiarFormulario(){
+        txtUsuario.setText("");
+        txtContrasenia.setText("");
+    }
+    
     /**
      * @param args the command line arguments
      */
