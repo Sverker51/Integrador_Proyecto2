@@ -1,8 +1,10 @@
-C:\Users\Sverker51\Documents\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\RegistroDeAsistencia.java
-C:\Users\Sverker51\Documents\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\Menu.java
-C:\Users\Sverker51\Documents\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\Main.java
-C:\Users\Sverker51\Documents\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\SolicitudDeAusencia.java
-C:\Users\Sverker51\Documents\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\GestionDeUsuarios.java
-C:\Users\Sverker51\Documents\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\AprobacionDeAusencias.java
-C:\Users\Sverker51\Documents\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\GestionDeAsistencias.java
-C:\Users\Sverker51\Documents\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\Reportes.java
+D:\UTP\CICLO-2\PROYECTO INTEGRADOR\Git\Integrador_Proyecto2\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\model\Usuario.java
+D:\UTP\CICLO-2\PROYECTO INTEGRADOR\Git\Integrador_Proyecto2\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\RegistroDeAsistencia.java
+D:\UTP\CICLO-2\PROYECTO INTEGRADOR\Git\Integrador_Proyecto2\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\GestionDeUsuarios.java
+D:\UTP\CICLO-2\PROYECTO INTEGRADOR\Git\Integrador_Proyecto2\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\Reportes.java
+D:\UTP\CICLO-2\PROYECTO INTEGRADOR\Git\Integrador_Proyecto2\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\Menu.java
+D:\UTP\CICLO-2\PROYECTO INTEGRADOR\Git\Integrador_Proyecto2\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\AprobacionDeAusencias.java
+D:\UTP\CICLO-2\PROYECTO INTEGRADOR\Git\Integrador_Proyecto2\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\SolicitudDeAusencia.java
+D:\UTP\CICLO-2\PROYECTO INTEGRADOR\Git\Integrador_Proyecto2\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\Main.java
+D:\UTP\CICLO-2\PROYECTO INTEGRADOR\Git\Integrador_Proyecto2\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\view\GestionDeAsistencias.java
+D:\UTP\CICLO-2\PROYECTO INTEGRADOR\Git\Integrador_Proyecto2\RegistroDeAsistencia\src\main\java\com\utp\registrodeasistencia\controller\ConnectionDB.java
