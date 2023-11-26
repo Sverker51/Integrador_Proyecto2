@@ -4,12 +4,20 @@
  */
 package com.utp.registrodeasistencia.view;
 
+import com.utp.registrodeasistencia.model.Usuario;
+import java.sql.Timestamp;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+
+
 /**
  *
  * @author Miguel
  */
 public class RegistroDeAsistencia extends javax.swing.JPanel {
 
+    
+    
     /**
      * Creates new form Principal
      */
@@ -47,6 +55,11 @@ public class RegistroDeAsistencia extends javax.swing.JPanel {
         btnEntrada.setForeground(new java.awt.Color(13, 71, 161));
         btnEntrada.setText("Marcar Ingreso");
         btnEntrada.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEntradaActionPerformed(evt);
+            }
+        });
 
         btnSalida.setBackground(new java.awt.Color(255, 255, 255));
         btnSalida.setFont(new java.awt.Font("Segoe UI", 0, 30)); // NOI18N
@@ -114,6 +127,16 @@ public class RegistroDeAsistencia extends javax.swing.JPanel {
             .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntradaActionPerformed
+        
+        //Timestap horaIngreso= new Timestamp(System.currentTimeMillis());
+        Usuario user=new Usuario();
+        
+        
+        
+        
+    }//GEN-LAST:event_btnEntradaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

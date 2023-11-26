@@ -4,6 +4,8 @@
  */
 package com.utp.registrodeasistencia.view;
 
+import com.utp.registrodeasistencia.controller.UsuarioDaoImpl;
+import com.utp.registrodeasistencia.model.Usuario;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.time.LocalDate;
@@ -12,6 +14,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -23,6 +27,9 @@ public class Menu extends javax.swing.JFrame implements Runnable {
     private String datoRol;
     public static String dni;
     public static String contrasenia;
+    Usuario usuarioBD;
+    
+    UsuarioDaoImpl u = new UsuarioDaoImpl();
 
     String hora, minutos, segundos, ampm;
     Calendar calendario;
@@ -39,7 +46,12 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         this.datoRol = main.rol;
         t1 = new Thread(this);
         t1.start();
-        navText.setText("Juan Alfonso Perez Garcia/" + datoRol);
+        try {
+             usuarioBD = u.obtenerUsuarioPorDni(this.dni);
+        } catch (Exception ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        navText.setText(usuarioBD.getNombre() + " "+ usuarioBD.getApellido() + " / "+usuarioBD.getRol());
         tituloText.setText("Registro de Asistencia");
     }
 
