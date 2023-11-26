@@ -20,7 +20,7 @@ import javax.swing.UIManager;
 public class Main extends javax.swing.JFrame {
     public static String dni;
     public static String contrasenia;
-    public static String rol;
+    public static String rol;    
     /**
      * Creates new form Main
      */
