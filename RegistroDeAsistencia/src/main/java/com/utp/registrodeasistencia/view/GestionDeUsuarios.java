@@ -5,6 +5,7 @@
 package com.utp.registrodeasistencia.view;
 
 import com.utp.registrodeasistencia.controller.UsuarioDaoImpl;
+import com.utp.registrodeasistencia.model.Horario;
 import com.utp.registrodeasistencia.model.Usuario;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -53,6 +54,8 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         txtDni = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        cbHorario = new javax.swing.JComboBox<>();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -138,6 +141,13 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
         txtDni.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtDni.setPreferredSize(new java.awt.Dimension(59, 27));
 
+        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        jLabel8.setText("Horario:");
+
+        cbHorario.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        cbHorario.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrativo", "Gerencial", "Esclavo" }));
+        cbHorario.setPreferredSize(new java.awt.Dimension(56, 27));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -169,15 +179,6 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbxActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cbxRol, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel7)
@@ -188,7 +189,22 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)))
+                        .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel5))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbxActivo, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(cbxRol, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel8)
+                                .addGap(18, 18, 18)
+                                .addComponent(cbHorario, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -226,8 +242,12 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(cbxActivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(cbHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -255,6 +275,7 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
         usuario2.setCorreo(txtCorreo.getText());
         usuario2.setRol("COLABORADOR");
         
+        
         UsuarioDaoImpl dao = new UsuarioDaoImpl();
         try {
             dao.registrar(usuario2);
@@ -264,12 +285,14 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDesactivar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JComboBox<String> cbHorario;
     private javax.swing.JComboBox<String> cbxActivo;
     private javax.swing.JComboBox<String> cbxRol;
     private javax.swing.JLabel jLabel1;
@@ -279,6 +302,7 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblUsuarios;

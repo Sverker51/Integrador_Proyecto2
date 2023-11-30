@@ -6,6 +6,7 @@ package com.utp.registrodeasistencia.controller;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 /**
@@ -32,5 +33,13 @@ public class ConnectionDB {
                 conexion.close();
             }
         } 
+    }
+
+    public PreparedStatement prepareStatement(String sql) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void close() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

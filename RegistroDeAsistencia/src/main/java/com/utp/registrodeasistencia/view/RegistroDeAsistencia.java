@@ -4,10 +4,21 @@
  */
 package com.utp.registrodeasistencia.view;
 
+import com.utp.registrodeasistencia.controller.ConnectionDB;
+import com.utp.registrodeasistencia.controller.UsuarioDaoImpl;
+import com.utp.registrodeasistencia.model.DetalleAsistencia;
+import com.utp.registrodeasistencia.model.Horario;
 import com.utp.registrodeasistencia.model.Usuario;
 import java.sql.Timestamp;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Date;
+import javax.swing.JButton;
 
 
 /**
@@ -16,14 +27,20 @@ import java.sql.PreparedStatement;
  */
 public class RegistroDeAsistencia extends javax.swing.JPanel {
 
-    
-    
+    private DetalleAsistencia detalleAsistencia;
+    private Date HoraEntrada;
+    private Date HoraSalida;
     /**
      * Creates new form Principal
      */
     public RegistroDeAsistencia() {
+        
         initComponents();
         btnEntrada.setEnabled(true);
+        
+        
+        
+        
     }
 
     /**
@@ -66,6 +83,11 @@ public class RegistroDeAsistencia extends javax.swing.JPanel {
         btnSalida.setForeground(new java.awt.Color(13, 71, 161));
         btnSalida.setText("Marcar Salida");
         btnSalida.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnSalida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalidaActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel2.setText("Total de horas trabajadas: ");
@@ -129,14 +151,20 @@ public class RegistroDeAsistencia extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntradaActionPerformed
-        
-        //Timestap horaIngreso= new Timestamp(System.currentTimeMillis());
-        Usuario user=new Usuario();
-        
-        
+        this.detalleAsistencia = new DetalleAsistencia();
+        this.detalleAsistencia.registrarEntrada();
+        btnEntrada.setEnabled(false);
+        btnSalida.setEnabled(true);
+                
         
         
     }//GEN-LAST:event_btnEntradaActionPerformed
+    
+    private void btnSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalidaActionPerformed
+        
+        btnEntrada.setEnabled(true);
+        btnSalida.setEnabled(false);
+    }//GEN-LAST:event_btnSalidaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
