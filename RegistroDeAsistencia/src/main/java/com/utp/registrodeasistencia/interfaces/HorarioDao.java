@@ -12,8 +12,9 @@ import java.util.List;
  * @author Miguel
  */
 public interface HorarioDao {
-    public void registrar(Horario horario);
-    public void modificar(Horario horario);
-    public void desactivar(Horario horario);
+    public void registrar(Horario horario) throws Exception;;
+    public void modificar(Horario horario) throws Exception;;
+    public void desactivar(Horario horario)throws Exception;;
     public List<Horario> listar()throws Exception;
+    public Horario getHorarioById(int id) throws Exception;
 }
