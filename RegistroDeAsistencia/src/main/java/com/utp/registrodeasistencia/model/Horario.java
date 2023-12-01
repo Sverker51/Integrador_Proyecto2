@@ -22,6 +22,7 @@ public class Horario {
     private String descripcion;
     private Time horaInicio;
     private Time horaFin;
+    private String area;
        
    
     public static Horario obtenerHorarioPorDescripcion(Connection connection, String descripcion) throws SQLException {

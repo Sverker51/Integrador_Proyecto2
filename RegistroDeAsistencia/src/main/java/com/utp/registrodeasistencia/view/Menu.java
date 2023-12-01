@@ -107,21 +107,21 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         if (datoRol.toUpperCase().equals("COLABORADOR")) {
             btnGestionDeAsistencias.setVisible(Boolean.FALSE);
             btnAprobacionDeAusencias.setVisible(Boolean.FALSE);
-            btnReportes.setVisible(Boolean.FALSE);
+            btnHorarios.setVisible(Boolean.FALSE);
             btnGestionDeUsuarios.setVisible(Boolean.FALSE);
         } else if (datoRol.toUpperCase().equals("ADMINISTRADOR")) {
             btnMarcarAsistencía.setVisible(Boolean.TRUE);
             btnSolicitudDiaLibre.setVisible(Boolean.TRUE);
             btnGestionDeAsistencias.setVisible(Boolean.TRUE);
             btnAprobacionDeAusencias.setVisible(Boolean.TRUE);
-            btnReportes.setVisible(Boolean.TRUE);
+            btnHorarios.setVisible(Boolean.TRUE);
             btnGestionDeUsuarios.setVisible(Boolean.TRUE);
         } else {
             btnMarcarAsistencía.setVisible(Boolean.TRUE);
             btnSolicitudDiaLibre.setVisible(Boolean.TRUE);
             btnGestionDeAsistencias.setVisible(Boolean.TRUE);
             btnAprobacionDeAusencias.setVisible(Boolean.TRUE);
-            btnReportes.setVisible(Boolean.TRUE);
+            btnHorarios.setVisible(Boolean.TRUE);
             btnGestionDeUsuarios.setVisible(Boolean.TRUE);
         }
     }
@@ -148,7 +148,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         btnSolicitudDiaLibre = new javax.swing.JButton();
         btnGestionDeAsistencias = new javax.swing.JButton();
         btnAprobacionDeAusencias = new javax.swing.JButton();
-        btnReportes = new javax.swing.JButton();
+        btnHorarios = new javax.swing.JButton();
         btnGestionDeUsuarios = new javax.swing.JButton();
         btnCerrarSesion = new javax.swing.JButton();
         content = new javax.swing.JPanel();
@@ -162,6 +162,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         header.setPreferredSize(new java.awt.Dimension(876, 150));
 
         navText.setText("Administración/Seguimiento de Asistencias");
+        navText.setPreferredSize(new java.awt.Dimension(202, 16));
 
         dateText.setText("Hoy es {dayname} {day} de {month} de {year}");
 
@@ -179,8 +180,8 @@ public class Menu extends javax.swing.JFrame implements Runnable {
                 .addGap(24, 24, 24)
                 .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(navText, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE)
-                        .addComponent(dateText, javax.swing.GroupLayout.DEFAULT_SIZE, 425, Short.MAX_VALUE))
+                        .addComponent(navText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(dateText, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(tituloText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(timeText, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -190,15 +191,15 @@ public class Menu extends javax.swing.JFrame implements Runnable {
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, headerLayout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(timeText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(timeText, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(headerLayout.createSequentialGroup()
                         .addComponent(tituloText, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(navText, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(dateText, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                        .addComponent(navText, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dateText, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)))
+                .addGap(16, 16, 16))
         );
 
         menu.setBackground(new java.awt.Color(13, 71, 161));
@@ -213,7 +214,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         btnMarcarAsistencía.setIcon(new javax.swing.ImageIcon(getClass().getResource("/home-outline.png"))); // NOI18N
         btnMarcarAsistencía.setText("Registro de Asistencia");
         btnMarcarAsistencía.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
-        btnMarcarAsistencía.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnMarcarAsistencía.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnMarcarAsistencía.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnMarcarAsistencía.setIconTextGap(13);
         btnMarcarAsistencía.addActionListener(new java.awt.event.ActionListener() {
@@ -228,7 +229,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         btnSolicitudDiaLibre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/calendar-plus.png"))); // NOI18N
         btnSolicitudDiaLibre.setText("Solicitud de permisos");
         btnSolicitudDiaLibre.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
-        btnSolicitudDiaLibre.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSolicitudDiaLibre.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnSolicitudDiaLibre.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnSolicitudDiaLibre.setIconTextGap(13);
         btnSolicitudDiaLibre.addActionListener(new java.awt.event.ActionListener() {
@@ -243,7 +244,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         btnGestionDeAsistencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/calendar-multiple-check.png"))); // NOI18N
         btnGestionDeAsistencias.setText("Gestion de asistencias");
         btnGestionDeAsistencias.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
-        btnGestionDeAsistencias.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGestionDeAsistencias.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnGestionDeAsistencias.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnGestionDeAsistencias.setIconTextGap(13);
         btnGestionDeAsistencias.addActionListener(new java.awt.event.ActionListener() {
@@ -258,7 +259,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         btnAprobacionDeAusencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/book-open-page-variant.png"))); // NOI18N
         btnAprobacionDeAusencias.setText("Aprobacion de permisos");
         btnAprobacionDeAusencias.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
-        btnAprobacionDeAusencias.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAprobacionDeAusencias.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnAprobacionDeAusencias.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnAprobacionDeAusencias.setIconTextGap(13);
         btnAprobacionDeAusencias.addActionListener(new java.awt.event.ActionListener() {
@@ -267,18 +268,18 @@ public class Menu extends javax.swing.JFrame implements Runnable {
             }
         });
 
-        btnReportes.setBackground(new java.awt.Color(21, 101, 192));
-        btnReportes.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        btnReportes.setForeground(new java.awt.Color(255, 255, 255));
-        btnReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/file-chart.png"))); // NOI18N
-        btnReportes.setText("Reportes");
-        btnReportes.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
-        btnReportes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnReportes.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        btnReportes.setIconTextGap(13);
-        btnReportes.addActionListener(new java.awt.event.ActionListener() {
+        btnHorarios.setBackground(new java.awt.Color(21, 101, 192));
+        btnHorarios.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnHorarios.setForeground(new java.awt.Color(255, 255, 255));
+        btnHorarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/file-chart.png"))); // NOI18N
+        btnHorarios.setText("Horarios");
+        btnHorarios.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
+        btnHorarios.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnHorarios.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnHorarios.setIconTextGap(13);
+        btnHorarios.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReportesActionPerformed(evt);
+                btnHorariosActionPerformed(evt);
             }
         });
 
@@ -288,7 +289,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         btnGestionDeUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/account-multiple.png"))); // NOI18N
         btnGestionDeUsuarios.setText("Gestion de usuarios");
         btnGestionDeUsuarios.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
-        btnGestionDeUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnGestionDeUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnGestionDeUsuarios.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnGestionDeUsuarios.setIconTextGap(13);
         btnGestionDeUsuarios.addActionListener(new java.awt.event.ActionListener() {
@@ -303,7 +304,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         btnCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/exit-regular-24.png"))); // NOI18N
         btnCerrarSesion.setText("Cerrar Sesion");
         btnCerrarSesion.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
-        btnCerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnCerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnCerrarSesion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         btnCerrarSesion.setIconTextGap(13);
         btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
@@ -319,7 +320,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
             .addComponent(btnMarcarAsistencía, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnSolicitudDiaLibre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnGestionDeAsistencias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(btnReportes, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnHorarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(menuLayout.createSequentialGroup()
                 .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(menuLayout.createSequentialGroup()
@@ -350,7 +351,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnAprobacionDeAusencias, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnGestionDeUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
@@ -389,8 +390,9 @@ public class Menu extends javax.swing.JFrame implements Runnable {
             .addGroup(bgLayout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
-                .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(4, 4, 4))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -432,11 +434,11 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         seleccionarOpcion(aprobacionDeAusencias);
     }//GEN-LAST:event_btnAprobacionDeAusenciasActionPerformed
 
-    private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
-        tituloText.setText("Reportes");
-        Reportes reportes = new Reportes();
+    private void btnHorariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHorariosActionPerformed
+        tituloText.setText("Horarios");
+        Horario reportes = new Horario();
         seleccionarOpcion(reportes);
-    }//GEN-LAST:event_btnReportesActionPerformed
+    }//GEN-LAST:event_btnHorariosActionPerformed
 
     private void btnGestionDeUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionDeUsuariosActionPerformed
         tituloText.setText("Gestion de usuarios");
@@ -492,8 +494,8 @@ public class Menu extends javax.swing.JFrame implements Runnable {
     private javax.swing.JButton btnCerrarSesion;
     private javax.swing.JButton btnGestionDeAsistencias;
     private javax.swing.JButton btnGestionDeUsuarios;
+    private javax.swing.JButton btnHorarios;
     private javax.swing.JButton btnMarcarAsistencía;
-    private javax.swing.JButton btnReportes;
     private javax.swing.JButton btnSolicitudDiaLibre;
     private javax.swing.JPanel content;
     private javax.swing.JLabel dateText;
