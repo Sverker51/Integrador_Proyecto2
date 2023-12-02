@@ -15,12 +15,12 @@ import java.sql.SQLException;
  */
 public class ConnectionDB {
     
-    protected Connection conexion;
+    public Connection conexion;
     private final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
     private final String DB_URL = "jdbc:mysql://localhost:3306/bd_asistencia";
     
     private final String USER = "root";
-    private final String PASS = "admin";
+    private final String PASS = "calin200128";
     
     public void Conectar() throws SQLException, ClassNotFoundException{
         conexion = DriverManager.getConnection(DB_URL, USER, PASS);
