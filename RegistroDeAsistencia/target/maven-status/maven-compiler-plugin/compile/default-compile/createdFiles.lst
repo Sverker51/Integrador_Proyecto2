@@ -11,6 +11,7 @@ com\utp\registrodeasistencia\view\GestionDeUsuarios$1.class
 com\utp\registrodeasistencia\view\Horario.class
 com\utp\registrodeasistencia\view\Horario$2.class
 com\utp\registrodeasistencia\interfaces\UsuarioDao.class
+com\utp\registrodeasistencia\view\SolicitudDeAusencia$1.class
 com\utp\registrodeasistencia\controller\EnviarMail.class
 com\utp\registrodeasistencia\controller\UsuarioDaoImpl.class
 com\utp\registrodeasistencia\view\RegistroDeAsistencia$2.class
