@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -105,7 +106,7 @@ public class HorarioDaoImple extends ConnectionDB implements HorarioDao {
         Time horaEnTime = null;
         try {
             // Crear un objeto SimpleDateFormat para analizar la cadena de hora
-            SimpleDateFormat formatoHora = new SimpleDateFormat("hh:mm a");
+            SimpleDateFormat formatoHora = new SimpleDateFormat("hh:mm a", Locale.ENGLISH);
             // Parsear la cadena y obtener un objeto Date
             Date date = formatoHora.parse(horaString);
             // Convertir el objeto Date a un objeto Time

@@ -47,10 +47,11 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         t1 = new Thread(this);
         t1.start();
         try {
-             usuarioBD = u.obtenerUsuarioPorDni(this.dni);
+             usuarioBD = u.obtenerUsuarioPorDni(this.dni);             
         } catch (Exception ex) {
             Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
         }
+        lblDni.setText(dni);
         navText.setText(usuarioBD.getNombre() + " "+ usuarioBD.getApellido() + " / "+usuarioBD.getRol());
         tituloText.setText("Registro de Asistencia");
     }
@@ -152,6 +153,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         btnGestionDeUsuarios = new javax.swing.JButton();
         btnCerrarSesion = new javax.swing.JButton();
         content = new javax.swing.JPanel();
+        lblDni = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -329,7 +331,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
                     .addGroup(menuLayout.createSequentialGroup()
                         .addGap(41, 41, 41)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 29, Short.MAX_VALUE)))
+                        .addGap(0, 33, Short.MAX_VALUE)))
                 .addContainerGap())
             .addComponent(btnAprobacionDeAusencias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(btnGestionDeUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -372,6 +374,9 @@ public class Menu extends javax.swing.JFrame implements Runnable {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
+        lblDni.setForeground(new java.awt.Color(255, 255, 255));
+        lblDni.setText("lblDni");
+
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
@@ -379,16 +384,24 @@ public class Menu extends javax.swing.JFrame implements Runnable {
             .addGroup(bgLayout.createSequentialGroup()
                 .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(bgLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
-                        .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(bgLayout.createSequentialGroup()
+                        .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(bgLayout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(lblDni)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         bgLayout.setVerticalGroup(
             bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(bgLayout.createSequentialGroup()
-                .addGap(31, 31, 31)
+                .addContainerGap()
+                .addComponent(lblDni)
+                .addGap(9, 9, 9)
                 .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -501,6 +514,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
     private javax.swing.JLabel dateText;
     private javax.swing.JPanel header;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblDni;
     private javax.swing.JPanel menu;
     private javax.swing.JLabel navText;
     private javax.swing.JLabel timeText;

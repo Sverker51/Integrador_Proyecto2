@@ -6,6 +6,9 @@ package com.utp.registrodeasistencia.view;
 
 import java.awt.Color;
 import com.utp.registrodeasistencia.controller.ConnectionDB;
+import com.utp.registrodeasistencia.controller.GenerarCorreo;
+import com.utp.registrodeasistencia.controller.UsuarioDaoImpl;
+import com.utp.registrodeasistencia.model.Usuario;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,6 +18,8 @@ import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author Miguel
@@ -24,6 +29,7 @@ public class SolicitudDeAusencia extends javax.swing.JPanel {
     /**
      * Creates new form SolicitudDiaLibre
      */
+    Usuario usuario = new Usuario();
     public SolicitudDeAusencia() {
         initComponents();
         InitStyles();
@@ -32,6 +38,13 @@ public class SolicitudDeAusencia extends javax.swing.JPanel {
     }
     
     private void InitListeners() {
+        UsuarioDaoImpl usuarioDao = new UsuarioDaoImpl();
+        Main main = new Main();
+        try {
+            usuario = usuarioDao.obtenerUsuarioPorDni(main.dni);
+        } catch (Exception ex) {
+            Logger.getLogger(SolicitudDeAusencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
         btnSolicitarPermiso.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -74,6 +87,9 @@ public class SolicitudDeAusencia extends javax.swing.JPanel {
             }
 
             // Luego de procesar la solicitud, puedes realizar alguna acción, como limpiar los campos
+            GenerarCorreo generarCorreo = new GenerarCorreo();
+            generarCorreo.enviarCorreo(usuario.getCorreo(), fechaInicio + " - " + fechaFin, usuario.getNombre(), motivo);
+            
             limpiarCampos();
             }
     
@@ -170,6 +186,11 @@ public class SolicitudDeAusencia extends javax.swing.JPanel {
         btnSolicitarPermiso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         btnSolicitarPermiso.setForeground(new java.awt.Color(255, 255, 255));
         btnSolicitarPermiso.setText("Solicitar Permiso");
+        btnSolicitarPermiso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSolicitarPermisoActionPerformed(evt);
+            }
+        });
 
         btnLimpiar.setBackground(new java.awt.Color(15, 118, 210));
         btnLimpiar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -261,6 +282,10 @@ public class SolicitudDeAusencia extends javax.swing.JPanel {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSolicitarPermisoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitarPermisoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSolicitarPermisoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -27,10 +27,10 @@ com\utp\registrodeasistencia\model\Usuario.class
 com\utp\registrodeasistencia\view\SolicitudDeAusencia.class
 com\utp\registrodeasistencia\view\Menu$5.class
 com\utp\registrodeasistencia\view\Menu$2.class
-.netbeans_automatic_build
 com\utp\registrodeasistencia\view\GestionDeAsistencias.class
 com\utp\registrodeasistencia\model\Asistencia.class
 com\utp\registrodeasistencia\view\Menu$4.class
+com\utp\registrodeasistencia\controller\AsistenciaDaoImple.class
 com\utp\registrodeasistencia\interfaces\HorarioDao.class
 com\utp\registrodeasistencia\model\Horario.class
 com\utp\registrodeasistencia\model\Permiso.class
@@ -38,3 +38,4 @@ com\utp\registrodeasistencia\view\RegistroDeAsistencia$1.class
 com\utp\registrodeasistencia\view\RegistroDeAsistencia.class
 com\utp\registrodeasistencia\view\AprobacionDeAusencias.class
 com\utp\registrodeasistencia\view\Menu$1.class
+com\utp\registrodeasistencia\view\GestionDeUsuarios$2.class

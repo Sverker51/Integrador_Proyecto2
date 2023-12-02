@@ -156,25 +156,44 @@ public class RegistroDeAsistencia extends javax.swing.JPanel {
     private void btnEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntradaActionPerformed
         AsistenciaDaoImple asisdao  = new AsistenciaDaoImple();
         Usuario usuario = new Usuario();
+        UsuarioDaoImpl u = new UsuarioDaoImpl();
+        Menu menu = new Menu();
+        System.out.println(menu.dni);
+        try {
+             usuario = u.obtenerUsuarioPorDni(menu.dni);             
+        } catch (Exception ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         try {
             asisdao.registrarEntrada(usuario);
         } catch (SQLException ex) {
             Logger.getLogger(RegistroDeAsistencia.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(RegistroDeAsistencia.class.getName()).log(Level.SEVERE, null, ex);
         }
         btnEntrada.setEnabled(false);
         btnSalida.setEnabled(true);
-                
-        
-      
-        
-        
-        
     }//GEN-LAST:event_btnEntradaActionPerformed
     
     private void btnSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalidaActionPerformed
         AsistenciaDaoImple asisdao  = new AsistenciaDaoImple();
         Usuario usuario = new Usuario();
-        asisdao.registrarSalida(usuario);
+        UsuarioDaoImpl u = new UsuarioDaoImpl();
+        Menu menu = new Menu();
+        try {
+             usuario = u.obtenerUsuarioPorDni(menu.dni);             
+        } catch (Exception ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            asisdao.registrarSalida(usuario);
+       
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(RegistroDeAsistencia.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(RegistroDeAsistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
         btnEntrada.setEnabled(true);
         btnSalida.setEnabled(false);
     }//GEN-LAST:event_btnSalidaActionPerformed

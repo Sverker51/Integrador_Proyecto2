@@ -303,7 +303,7 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
     private void TablaUsuarios(){
       
     ConnectionDB cn = new ConnectionDB();
-    Connection conexion = cn.Conectar();
+   // Connection conexion = cn.Conectar();
      
      String [] nombresColumnas ={"DNI","Nombre", "Apellido", "Correo"}; 
      DefaultTableModel modelo = new DefaultTableModel(null, nombresColumnas); 
@@ -314,7 +314,7 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
       TablaUsuarios.setModel(modelo);
       String [] registros = new String[3];
        
-      try {
+     /* try {
           st = conexion.createStatement();
       
           ResultSet result = st.executeQuery(sql);
@@ -328,7 +328,7 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
         e.printStackTrace();
     }
 
-    }
+*/    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton GuardarUsuario;
