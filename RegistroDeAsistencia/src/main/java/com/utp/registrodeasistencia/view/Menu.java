@@ -1,0 +1,540 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package com.utp.registrodeasistencia.view;
+
+import com.utp.registrodeasistencia.controller.UsuarioDaoImpl;
+import com.utp.registrodeasistencia.model.Usuario;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JPanel;
+
+/**
+ *
+ * @author Miguel
+ */
+public class Menu extends javax.swing.JFrame implements Runnable {
+
+    private String datoRol;
+    public static String dni;
+    public static String contrasenia;
+    Usuario usuarioBD;
+    
+    UsuarioDaoImpl u = new UsuarioDaoImpl();
+
+    String hora, minutos, segundos, ampm;
+    Calendar calendario;
+    Thread t1;
+
+    public Menu() {
+        initComponents();
+        InitStyles();
+        setDate();
+        InitContent();
+        Main main = new Main();
+        this.dni = main.dni;
+        this.contrasenia = main.contrasenia;
+        this.datoRol = main.rol;
+        t1 = new Thread(this);
+        t1.start();
+        try {
+             usuarioBD = u.obtenerUsuarioPorDni(this.dni);
+        } catch (Exception ex) {
+            Logger.getLogger(Menu.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        navText.setText(usuarioBD.getNombre() + " "+ usuarioBD.getApellido() + " / "+usuarioBD.getRol());
+        tituloText.setText("Registro de Asistencia");
+    }
+
+    public void asignarRol(String dato) {
+        this.datoRol = dato;        
+        validarRol();
+    }
+
+    private void setDate() {
+        LocalDate date = LocalDate.now();
+        Locale spanishLocale = new Locale("es", "ES");
+        dateText.setText(LocalDate.now().format(DateTimeFormatter.ofPattern("'Hoy es' EEEE dd 'de' MMMM 'de' yyyy", spanishLocale)));
+    }
+
+    private void InitContent() {
+        RegistroDeAsistencia principal = new RegistroDeAsistencia();
+        principal.setSize(750, 430);
+        principal.setLocation(0, 0);
+
+        content.removeAll();
+        content.add(principal, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+    }
+
+    private void InitStyles() {
+        //FlatMaterialLighterIJTheme.setup();
+        btnMarcarAsistencía.putClientProperty("JButton.buttonType", "roundRect");;
+        /*navText.putClientProperty("FlatLaf.style", "font: bold $h2.regular.font");
+        navText.setForeground(Color.WHITE);*/
+        navText.putClientProperty("FlatLaf.style", "font: 24 $light.font");
+        navText.setForeground(Color.WHITE);
+        dateText.putClientProperty("FlatLaf.style", "font: 24 $light.font");
+        dateText.setForeground(Color.WHITE);
+        appName.putClientProperty("FlatLaf.style", "font: bold $h1.regular.font");
+        appName.setForeground(Color.WHITE);
+        timeText.putClientProperty("FlatLaf.style", "font: 40 $light.font");
+        timeText.setForeground(Color.WHITE);
+        tituloText.putClientProperty("FlatLaf.style", "font: bold $h1.regular.font");
+        tituloText.setForeground(Color.WHITE);
+    }
+
+    private void seleccionarOpcion(JPanel panel) {
+        panel.setSize(750, 430);
+        panel.setLocation(0, 0);
+        content.removeAll();
+        content.add(panel, BorderLayout.CENTER);
+        content.revalidate();
+        content.repaint();
+    }
+
+    private void validarRol() {
+        if (datoRol.toUpperCase().equals("COLABORADOR")) {
+            btnGestionDeAsistencias.setVisible(Boolean.FALSE);
+            btnAprobacionDeAusencias.setVisible(Boolean.FALSE);
+            btnHorarios.setVisible(Boolean.FALSE);
+            btnGestionDeUsuarios.setVisible(Boolean.FALSE);
+        } else if (datoRol.toUpperCase().equals("ADMINISTRADOR")) {
+            btnMarcarAsistencía.setVisible(Boolean.TRUE);
+            btnSolicitudDiaLibre.setVisible(Boolean.TRUE);
+            btnGestionDeAsistencias.setVisible(Boolean.TRUE);
+            btnAprobacionDeAusencias.setVisible(Boolean.TRUE);
+            btnHorarios.setVisible(Boolean.TRUE);
+            btnGestionDeUsuarios.setVisible(Boolean.TRUE);
+        } else {
+            btnMarcarAsistencía.setVisible(Boolean.TRUE);
+            btnSolicitudDiaLibre.setVisible(Boolean.TRUE);
+            btnGestionDeAsistencias.setVisible(Boolean.TRUE);
+            btnAprobacionDeAusencias.setVisible(Boolean.TRUE);
+            btnHorarios.setVisible(Boolean.TRUE);
+            btnGestionDeUsuarios.setVisible(Boolean.TRUE);
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        bg = new javax.swing.JPanel();
+        header = new javax.swing.JPanel();
+        navText = new javax.swing.JLabel();
+        dateText = new javax.swing.JLabel();
+        timeText = new javax.swing.JLabel();
+        tituloText = new javax.swing.JLabel();
+        menu = new javax.swing.JPanel();
+        appName = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        btnMarcarAsistencía = new javax.swing.JButton();
+        btnSolicitudDiaLibre = new javax.swing.JButton();
+        btnGestionDeAsistencias = new javax.swing.JButton();
+        btnAprobacionDeAusencias = new javax.swing.JButton();
+        btnHorarios = new javax.swing.JButton();
+        btnGestionDeUsuarios = new javax.swing.JButton();
+        btnCerrarSesion = new javax.swing.JButton();
+        content = new javax.swing.JPanel();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        bg.setBackground(new java.awt.Color(255, 255, 255));
+
+        header.setBackground(new java.awt.Color(15, 118, 210));
+        header.setPreferredSize(new java.awt.Dimension(876, 150));
+
+        navText.setText("Administración/Seguimiento de Asistencias");
+        navText.setPreferredSize(new java.awt.Dimension(202, 16));
+
+        dateText.setText("Hoy es {dayname} {day} de {month} de {year}");
+
+        timeText.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        timeText.setText("hh:mm:ss");
+        timeText.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)));
+
+        tituloText.setText("Administración/Seguimiento de Asistencias");
+
+        javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
+        header.setLayout(headerLayout);
+        headerLayout.setHorizontalGroup(
+            headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(headerLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(navText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(dateText, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tituloText, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 425, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                .addComponent(timeText, javax.swing.GroupLayout.PREFERRED_SIZE, 264, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
+        );
+        headerLayout.setVerticalGroup(
+            headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, headerLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(timeText, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(headerLayout.createSequentialGroup()
+                        .addComponent(tituloText, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(navText, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(dateText, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)))
+                .addGap(16, 16, 16))
+        );
+
+        menu.setBackground(new java.awt.Color(13, 71, 161));
+        menu.setPreferredSize(new java.awt.Dimension(270, 640));
+
+        appName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        appName.setText("CHAMBITA UTP");
+
+        btnMarcarAsistencía.setBackground(new java.awt.Color(21, 101, 192));
+        btnMarcarAsistencía.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnMarcarAsistencía.setForeground(new java.awt.Color(255, 255, 255));
+        btnMarcarAsistencía.setIcon(new javax.swing.ImageIcon(getClass().getResource("/home-outline.png"))); // NOI18N
+        btnMarcarAsistencía.setText("Registro de Asistencia");
+        btnMarcarAsistencía.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
+        btnMarcarAsistencía.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnMarcarAsistencía.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnMarcarAsistencía.setIconTextGap(13);
+        btnMarcarAsistencía.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMarcarAsistencíaActionPerformed(evt);
+            }
+        });
+
+        btnSolicitudDiaLibre.setBackground(new java.awt.Color(21, 101, 192));
+        btnSolicitudDiaLibre.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnSolicitudDiaLibre.setForeground(new java.awt.Color(255, 255, 255));
+        btnSolicitudDiaLibre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/calendar-plus.png"))); // NOI18N
+        btnSolicitudDiaLibre.setText("Solicitud de permisos");
+        btnSolicitudDiaLibre.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
+        btnSolicitudDiaLibre.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnSolicitudDiaLibre.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnSolicitudDiaLibre.setIconTextGap(13);
+        btnSolicitudDiaLibre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSolicitudDiaLibreActionPerformed(evt);
+            }
+        });
+
+        btnGestionDeAsistencias.setBackground(new java.awt.Color(21, 101, 192));
+        btnGestionDeAsistencias.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnGestionDeAsistencias.setForeground(new java.awt.Color(255, 255, 255));
+        btnGestionDeAsistencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/calendar-multiple-check.png"))); // NOI18N
+        btnGestionDeAsistencias.setText("Gestion de asistencias");
+        btnGestionDeAsistencias.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
+        btnGestionDeAsistencias.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnGestionDeAsistencias.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnGestionDeAsistencias.setIconTextGap(13);
+        btnGestionDeAsistencias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGestionDeAsistenciasActionPerformed(evt);
+            }
+        });
+
+        btnAprobacionDeAusencias.setBackground(new java.awt.Color(21, 101, 192));
+        btnAprobacionDeAusencias.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAprobacionDeAusencias.setForeground(new java.awt.Color(255, 255, 255));
+        btnAprobacionDeAusencias.setIcon(new javax.swing.ImageIcon(getClass().getResource("/book-open-page-variant.png"))); // NOI18N
+        btnAprobacionDeAusencias.setText("Aprobacion de permisos");
+        btnAprobacionDeAusencias.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
+        btnAprobacionDeAusencias.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnAprobacionDeAusencias.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnAprobacionDeAusencias.setIconTextGap(13);
+        btnAprobacionDeAusencias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAprobacionDeAusenciasActionPerformed(evt);
+            }
+        });
+
+        btnHorarios.setBackground(new java.awt.Color(21, 101, 192));
+        btnHorarios.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnHorarios.setForeground(new java.awt.Color(255, 255, 255));
+        btnHorarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/file-chart.png"))); // NOI18N
+        btnHorarios.setText("Horarios");
+        btnHorarios.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
+        btnHorarios.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnHorarios.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnHorarios.setIconTextGap(13);
+        btnHorarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHorariosActionPerformed(evt);
+            }
+        });
+
+        btnGestionDeUsuarios.setBackground(new java.awt.Color(21, 101, 192));
+        btnGestionDeUsuarios.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnGestionDeUsuarios.setForeground(new java.awt.Color(255, 255, 255));
+        btnGestionDeUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/account-multiple.png"))); // NOI18N
+        btnGestionDeUsuarios.setText("Gestion de usuarios");
+        btnGestionDeUsuarios.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
+        btnGestionDeUsuarios.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnGestionDeUsuarios.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnGestionDeUsuarios.setIconTextGap(13);
+        btnGestionDeUsuarios.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGestionDeUsuariosActionPerformed(evt);
+            }
+        });
+
+        btnCerrarSesion.setBackground(new java.awt.Color(21, 101, 192));
+        btnCerrarSesion.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnCerrarSesion.setForeground(new java.awt.Color(255, 255, 255));
+        btnCerrarSesion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/exit-regular-24.png"))); // NOI18N
+        btnCerrarSesion.setText("Cerrar Sesion");
+        btnCerrarSesion.setBorder(javax.swing.BorderFactory.createMatteBorder(1, 12, 1, 1, new java.awt.Color(21, 101, 192)));
+        btnCerrarSesion.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnCerrarSesion.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnCerrarSesion.setIconTextGap(13);
+        btnCerrarSesion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCerrarSesionActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout menuLayout = new javax.swing.GroupLayout(menu);
+        menu.setLayout(menuLayout);
+        menuLayout.setHorizontalGroup(
+            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(btnMarcarAsistencía, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnSolicitudDiaLibre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnGestionDeAsistencias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnHorarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(menuLayout.createSequentialGroup()
+                .addGroup(menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(menuLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(appName, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(menuLayout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 29, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addComponent(btnAprobacionDeAusencias, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnGestionDeUsuarios, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(btnCerrarSesion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        menuLayout.setVerticalGroup(
+            menuLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(menuLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(appName, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(48, 48, 48)
+                .addComponent(btnMarcarAsistencía, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnSolicitudDiaLibre, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGestionDeAsistencias, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnAprobacionDeAusencias, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGestionDeUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                .addComponent(btnCerrarSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(19, 19, 19))
+        );
+
+        content.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout contentLayout = new javax.swing.GroupLayout(content);
+        content.setLayout(contentLayout);
+        contentLayout.setHorizontalGroup(
+            contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        contentLayout.setVerticalGroup(
+            contentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
+        bg.setLayout(bgLayout);
+        bgLayout.setHorizontalGroup(
+            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bgLayout.createSequentialGroup()
+                .addComponent(menu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(bgLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        bgLayout.setVerticalGroup(
+            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(bgLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(content, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(4, 4, 4))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnMarcarAsistencíaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMarcarAsistencíaActionPerformed
+        tituloText.setText("Registro de Asistencia");
+        RegistroDeAsistencia principal = new RegistroDeAsistencia();
+        seleccionarOpcion(principal);
+    }//GEN-LAST:event_btnMarcarAsistencíaActionPerformed
+
+    private void btnSolicitudDiaLibreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSolicitudDiaLibreActionPerformed
+        tituloText.setText("Solicitud de permisos");
+        SolicitudDeAusencia solicitudDiaLibre = new SolicitudDeAusencia();
+        seleccionarOpcion(solicitudDiaLibre);
+    }//GEN-LAST:event_btnSolicitudDiaLibreActionPerformed
+
+    private void btnGestionDeAsistenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionDeAsistenciasActionPerformed
+        tituloText.setText("Gestion de asistencias");
+        GestionDeAsistencias gestionDeAsistencias = new GestionDeAsistencias();
+        seleccionarOpcion(gestionDeAsistencias);
+    }//GEN-LAST:event_btnGestionDeAsistenciasActionPerformed
+
+    private void btnAprobacionDeAusenciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAprobacionDeAusenciasActionPerformed
+        tituloText.setText("Aprobacion de permisos");
+        AprobacionDeAusencias aprobacionDeAusencias = new AprobacionDeAusencias();
+        seleccionarOpcion(aprobacionDeAusencias);
+    }//GEN-LAST:event_btnAprobacionDeAusenciasActionPerformed
+
+    private void btnHorariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHorariosActionPerformed
+        tituloText.setText("Horarios");
+        Horario reportes = new Horario();
+        seleccionarOpcion(reportes);
+    }//GEN-LAST:event_btnHorariosActionPerformed
+
+    private void btnGestionDeUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGestionDeUsuariosActionPerformed
+        tituloText.setText("Gestion de usuarios");
+        GestionDeUsuarios gestionDeUsuarios = new GestionDeUsuarios();
+        seleccionarOpcion(gestionDeUsuarios);
+    }//GEN-LAST:event_btnGestionDeUsuariosActionPerformed
+
+    private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
+        Main main = new Main();
+        main.setVisible(Boolean.TRUE);
+        this.setVisible(Boolean.FALSE);
+    }//GEN-LAST:event_btnCerrarSesionActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Menu().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel appName;
+    private javax.swing.JPanel bg;
+    private javax.swing.JButton btnAprobacionDeAusencias;
+    private javax.swing.JButton btnCerrarSesion;
+    private javax.swing.JButton btnGestionDeAsistencias;
+    private javax.swing.JButton btnGestionDeUsuarios;
+    private javax.swing.JButton btnHorarios;
+    private javax.swing.JButton btnMarcarAsistencía;
+    private javax.swing.JButton btnSolicitudDiaLibre;
+    private javax.swing.JPanel content;
+    private javax.swing.JLabel dateText;
+    private javax.swing.JPanel header;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPanel menu;
+    private javax.swing.JLabel navText;
+    private javax.swing.JLabel timeText;
+    private javax.swing.JLabel tituloText;
+    // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void run() {
+        Thread ct = Thread.currentThread();
+        while (ct == t1) {
+            calcula();
+            timeText.setText(hora + ":" + minutos + ":" + segundos + " " + ampm);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+            }
+        }
+    }
+
+    private void calcula() {
+        Calendar calendario = new GregorianCalendar();
+        Date fechaHoraActual = new Date();
+        calendario.setTime(fechaHoraActual);
+        ampm = calendario.get(Calendar.AM_PM) == Calendar.AM ? "AM" : "PM";
+        if (ampm.equals("PM")) {
+            int h = calendario.get(Calendar.HOUR_OF_DAY) - 12;
+            hora = h > 9 ? "" + h : "0" + h;
+            if (h == 0) {
+                hora = "12";
+            }
+        } else {
+            hora = calendario.get(Calendar.HOUR_OF_DAY) > 9 ? "" + calendario.get(Calendar.HOUR_OF_DAY) : "0" + calendario.get(Calendar.HOUR_OF_DAY);
+        }
+        minutos = calendario.get(Calendar.MINUTE) > 9 ? "" + calendario.get(Calendar.MINUTE) : "0" + calendario.get(Calendar.MINUTE);
+        segundos = calendario.get(Calendar.SECOND) > 9 ? "" + calendario.get(Calendar.SECOND) : "0" + calendario.get(Calendar.SECOND);
+    }
+}
