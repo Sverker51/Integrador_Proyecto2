@@ -4,6 +4,7 @@
  */
 package com.utp.registrodeasistencia.view;
 
+import com.utp.registrodeasistencia.controller.AsistenciaDaoImple;
 import com.utp.registrodeasistencia.controller.ConnectionDB;
 import com.utp.registrodeasistencia.controller.UsuarioDaoImpl;
 import com.utp.registrodeasistencia.model.DetalleAsistencia;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Date;
 import javax.swing.JButton;
 
@@ -30,6 +32,7 @@ public class RegistroDeAsistencia extends javax.swing.JPanel {
     private DetalleAsistencia detalleAsistencia;
     private Date HoraEntrada;
     private Date HoraSalida;
+    private AsistenciaDaoImple AsistenciaDaoImple;
     /**
      * Creates new form Principal
      */
@@ -151,17 +154,27 @@ public class RegistroDeAsistencia extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEntradaActionPerformed
-        this.detalleAsistencia = new DetalleAsistencia();
-        this.detalleAsistencia.registrarEntrada();
+        AsistenciaDaoImple asisdao  = new AsistenciaDaoImple();
+        Usuario usuario = new Usuario();
+        try {
+            asisdao.registrarEntrada(usuario);
+        } catch (SQLException ex) {
+            Logger.getLogger(RegistroDeAsistencia.class.getName()).log(Level.SEVERE, null, ex);
+        }
         btnEntrada.setEnabled(false);
         btnSalida.setEnabled(true);
                 
+        
+      
+        
         
         
     }//GEN-LAST:event_btnEntradaActionPerformed
     
     private void btnSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalidaActionPerformed
-        
+        AsistenciaDaoImple asisdao  = new AsistenciaDaoImple();
+        Usuario usuario = new Usuario();
+        asisdao.registrarSalida(usuario);
         btnEntrada.setEnabled(true);
         btnSalida.setEnabled(false);
     }//GEN-LAST:event_btnSalidaActionPerformed

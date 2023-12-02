@@ -27,6 +27,7 @@ com\utp\registrodeasistencia\model\Usuario.class
 com\utp\registrodeasistencia\view\SolicitudDeAusencia.class
 com\utp\registrodeasistencia\view\Menu$5.class
 com\utp\registrodeasistencia\view\Menu$2.class
+.netbeans_automatic_build
 com\utp\registrodeasistencia\view\GestionDeAsistencias.class
 com\utp\registrodeasistencia\model\Asistencia.class
 com\utp\registrodeasistencia\view\Menu$4.class

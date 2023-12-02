@@ -17,5 +17,11 @@ public class Usuario {
     private String nombre;
     private String apellido;
     private String correo;
-    private String rol;    
+    private String rol;
+    private int horarioId;
+
+    public Usuario() {
+    }
+
+    
 }

@@ -18,4 +18,6 @@ public class Asistencia {
     private Timestamp fechaHoraIngreso;
     private Timestamp fechaHoraSalida;
     private int minutosTardanza;
+    
+ 
 }
