@@ -26,7 +26,7 @@ public class Horario extends javax.swing.JPanel {
     private DefaultTableModel modeloTabla;
 
     /**
-     * Creates new form Reportes
+     * Creates new form 
      */
     public Horario() {
         initComponents();

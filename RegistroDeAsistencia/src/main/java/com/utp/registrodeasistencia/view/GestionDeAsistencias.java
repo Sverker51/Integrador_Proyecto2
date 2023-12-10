@@ -4,17 +4,39 @@
  */
 package com.utp.registrodeasistencia.view;
 
+import com.utp.registrodeasistencia.controller.DetalleAsistenciaDaoImple;
+import com.utp.registrodeasistencia.model.DetalleAsistencia;
+import com.utp.registrodeasistencia.model.Usuario;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 /**
  *
- * @author Miguel
+ * @author 
  */
 public class GestionDeAsistencias extends javax.swing.JPanel {
-
+    
+    DefaultTableModel modelo = new DefaultTableModel();
+    
     /**
      * Creates new form GestionDeAsistencias
      */
     public GestionDeAsistencias() {
         initComponents();
+        
     }
 
     /**
@@ -28,19 +50,19 @@ public class GestionDeAsistencias extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        JTable = new javax.swing.JTable();
         FechaInicio = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
-        txtHoraIni = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        FechaInicio1 = new com.toedter.calendar.JDateChooser();
-        btnSolicitarPermiso = new javax.swing.JButton();
-        btnSolicitarPermiso1 = new javax.swing.JButton();
+        FechaFin = new com.toedter.calendar.JDateChooser();
+        btnLimpiar = new javax.swing.JButton();
+        btnBuscar = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        JTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -48,10 +70,10 @@ public class GestionDeAsistencias extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "DNI", "Fecha Ingreo", "Fecha Salida", "Minutos Tardanza"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(JTable);
 
         FechaInicio.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         FechaInicio.setMinSelectableDate(new java.util.Date(-62135747903000L));
@@ -60,8 +82,8 @@ public class GestionDeAsistencias extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel1.setText("Fecha de inicio: ");
 
-        txtHoraIni.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtHoraIni.setPreferredSize(new java.awt.Dimension(59, 27));
+        txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtNombre.setPreferredSize(new java.awt.Dimension(59, 27));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel4.setText("Nombre:");
@@ -69,19 +91,24 @@ public class GestionDeAsistencias extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel2.setText("Fecha de fin: ");
 
-        FechaInicio1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        FechaInicio1.setMinSelectableDate(new java.util.Date(-62135747903000L));
-        FechaInicio1.setPreferredSize(new java.awt.Dimension(95, 27));
+        FechaFin.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        FechaFin.setMinSelectableDate(new java.util.Date(-62135747903000L));
+        FechaFin.setPreferredSize(new java.awt.Dimension(95, 27));
 
-        btnSolicitarPermiso.setBackground(new java.awt.Color(15, 118, 210));
-        btnSolicitarPermiso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnSolicitarPermiso.setForeground(new java.awt.Color(255, 255, 255));
-        btnSolicitarPermiso.setText("Limpiar");
+        btnLimpiar.setBackground(new java.awt.Color(15, 118, 210));
+        btnLimpiar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setText("Limpiar");
 
-        btnSolicitarPermiso1.setBackground(new java.awt.Color(15, 118, 210));
-        btnSolicitarPermiso1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnSolicitarPermiso1.setForeground(new java.awt.Color(255, 255, 255));
-        btnSolicitarPermiso1.setText("Buscar");
+        btnBuscar.setBackground(new java.awt.Color(15, 118, 210));
+        btnBuscar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscar.setText("Buscar");
+        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -104,19 +131,19 @@ public class GestionDeAsistencias extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(FechaInicio1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(FechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(txtHoraIni, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(FechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addGap(174, 174, 174)))
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnSolicitarPermiso, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnSolicitarPermiso1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(btnLimpiar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnBuscar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18))))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -130,19 +157,19 @@ public class GestionDeAsistencias extends javax.swing.JPanel {
                                 .addComponent(jLabel4))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(txtHoraIni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(12, 12, 12)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(FechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnSolicitarPermiso1)
+                        .addComponent(btnBuscar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnSolicitarPermiso)))
+                        .addComponent(btnLimpiar)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(FechaInicio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(FechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
@@ -161,18 +188,49 @@ public class GestionDeAsistencias extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
+        
+        DetalleAsistenciaDaoImple detalle=new DetalleAsistenciaDaoImple();
+        Usuario usuario = new Usuario();
+        
+        // Obtener valores de los filtros
+        String nombre = txtNombre.getText();  // suponiendo que txtNombre es tu JTextField para el nombre
+        LocalDate fechaInicio = FechaInicio.getDate() != null ? FechaInicio.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
+        LocalDate fechaFin = FechaFin.getDate() != null ? FechaFin.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : null;
+
+        // Realizar la búsqueda
+        //List<DetalleAsistencia> detallesAsistencia = detalle.buscarDetallesAsistencia(nombre, fechaInicio, fechaFin);
+
+        // Actualizar el modelo del JTable con los resultados
+        DefaultTableModel model = (DefaultTableModel) JTable.getModel();
+        model.setRowCount(0);  // Limpiar el modelo antes de agregar nuevas filas
+
+        /*
+        for (DetalleAsistencia detalle : detallesAsistencia) {
+        Object[] rowData = {
+            usuario.getNombre(),
+            detalle.getFechaHoraIngreso(),
+            detalle.getFechaHoraSalida(),
+            detalle.getMinutosTardanza()
+        };
+        model.addRow(rowData);
+    }
+        */
+        
+    }//GEN-LAST:event_btnBuscarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JDateChooser FechaFin;
     private com.toedter.calendar.JDateChooser FechaInicio;
-    private com.toedter.calendar.JDateChooser FechaInicio1;
-    private javax.swing.JButton btnSolicitarPermiso;
-    private javax.swing.JButton btnSolicitarPermiso1;
+    private javax.swing.JTable JTable;
+    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtHoraIni;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
+
 }

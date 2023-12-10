@@ -27,6 +27,5 @@ public class DetalleAsistencia {
     private Usuario usuario;
     private Horario horario;
 
-   
 }
 
