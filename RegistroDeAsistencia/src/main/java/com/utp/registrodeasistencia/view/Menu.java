@@ -208,7 +208,7 @@ public class Menu extends javax.swing.JFrame implements Runnable {
         menu.setPreferredSize(new java.awt.Dimension(270, 640));
 
         appName.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        appName.setText("CHAMBITA UTP");
+        appName.setText("LABOR LOGIX");
 
         btnMarcarAsistencía.setBackground(new java.awt.Color(21, 101, 192));
         btnMarcarAsistencía.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N

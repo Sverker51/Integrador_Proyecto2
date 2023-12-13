@@ -54,6 +54,9 @@ public class SolicitudDeAusencia extends javax.swing.JPanel {
     }
     
     private void solicitarPermiso() {
+            
+            String dni = Main.dniIngresado;
+            int permiso = Motivo.getSelectedIndex();
             Date fechaInicio = FechaInicio.getDate();
             Date fechaFin = FechaFin.getDate();
             String motivo = Motivo.getSelectedItem().toString();
@@ -76,33 +79,43 @@ public class SolicitudDeAusencia extends javax.swing.JPanel {
 
             try {
                 // Intenta registrar la solicitud en la base de datos
-                registrarSolicitud(fechaInicio, fechaFin, motivo, detalles);
+                registrarSolicitud(dni, permiso, fechaInicio, fechaFin, motivo, detalles);
 
                 // Si no hay excepción, muestra el mensaje de éxito
                 JOptionPane.showMessageDialog(this, "Solicitud de permiso enviada con éxito.");
+                
+                // Crear una instancia de AprobacionDeAusencias
+                AprobacionDeAusencias aprobacionDeAusencias = new AprobacionDeAusencias();
+
+                // Llamar al método no estático desde la instancia creada
+                aprobacionDeAusencias.mostrarPermisosEnTabla();
+
+                // Envía el correo después de actualizar la tabla
+                GenerarCorreo generarCorreo = new GenerarCorreo();
+                generarCorreo.enviarCorreo(usuario.getCorreo(), fechaInicio + " - " + fechaFin, usuario.getNombre(), motivo);
+
+                // Luego de procesar la solicitud, puedes realizar alguna acción, como limpiar los campos
+                limpiarCampos();
             } catch (Exception ex) {
                 // Si hay una excepción, muestra el error y sus detalles
                 ex.printStackTrace(); // Esto imprime la traza del error en la consola
                 JOptionPane.showMessageDialog(this, "Error al registrar la solicitud en la base de datos.");
             }
+        }
 
-            // Luego de procesar la solicitud, puedes realizar alguna acción, como limpiar los campos
-            GenerarCorreo generarCorreo = new GenerarCorreo();
-            generarCorreo.enviarCorreo(usuario.getCorreo(), fechaInicio + " - " + fechaFin, usuario.getNombre(), motivo);
-            
-            limpiarCampos();
-            }
     
-            private void registrarSolicitud(Date fechaInicio, Date fechaFin, String motivo, String descripcion) {
+            private void registrarSolicitud(String dni, int permiso,Date fechaInicio, Date fechaFin, String motivo, String descripcion) {
         
             try {
             connectionDB.Conectar();
             Connection conexion = connectionDB.conexion; // Accede a la conexión desde ConnectionDB
-            PreparedStatement statement = conexion.prepareStatement("INSERT INTO detalle_permiso_usuario (fecha_inicio, fecha_fin, motivo) VALUES (?, ?, ?)");
-
-            statement.setDate(1, new java.sql.Date(fechaInicio.getTime()));
-            statement.setDate(2, new java.sql.Date(fechaFin.getTime()));
-            statement.setString(3, motivo);
+            PreparedStatement statement = conexion.prepareStatement("INSERT INTO detalle_permiso_usuario (dni, permiso_id, fecha_inicio, fecha_fin, motivo) VALUES (?, ?, ?, ?, ?)");
+            
+            statement.setString(1, dni);
+            statement.setInt(2, permiso);
+            statement.setDate(3, new java.sql.Date(fechaInicio.getTime()));
+            statement.setDate(4, new java.sql.Date(fechaFin.getTime()));
+            statement.setString(5, motivo);
 
             statement.executeUpdate();
             connectionDB.Cerrar();

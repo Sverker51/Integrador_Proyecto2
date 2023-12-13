@@ -4,19 +4,113 @@
  */
 package com.utp.registrodeasistencia.view;
 
+import com.utp.registrodeasistencia.controller.ConnectionDB;
+import com.utp.registrodeasistencia.controller.GenerarCorreoAprobacion;
+import com.utp.registrodeasistencia.controller.UsuarioDaoImpl;
+import com.utp.registrodeasistencia.model.Usuario;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Miguel
  */
 public class AprobacionDeAusencias extends javax.swing.JPanel {
-
+    private ConnectionDB connectionDB;
     /**
      * Creates new form AprobacionDeAusencias
      */
     public AprobacionDeAusencias() {
         initComponents();
-    }
+        mostrarPermisosEnTabla();
+        connectionDB = new ConnectionDB();
 
+        TablaPermisos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent event) {
+                if (!event.getValueIsAdjusting() && TablaPermisos.getSelectedRow() != -1) {
+                    llenarCamposDesdeTabla();
+                }
+            }
+        });
+    }
+    
+    public void mostrarPermisosEnTabla() {
+        ArrayList<Object[]> datosPermisos = new ArrayList<>();
+
+        try {
+            ConnectionDB conexionDB = new ConnectionDB();
+            conexionDB.Conectar();
+
+            // Consulta SQL para obtener los permisos
+            String consulta = "SELECT dni, fecha_inicio, fecha_fin, motivo FROM detalle_permiso_usuario";
+
+            PreparedStatement pstmt = conexionDB.conexion.prepareStatement(consulta);
+            ResultSet rs = pstmt.executeQuery();
+
+            // Recorrer los resultados y guardarlos en un ArrayList
+            while (rs.next()) {
+                Object[] permiso = new Object[4]; // 4 columnas en la tabla
+                permiso[0] = rs.getString("dni");
+                permiso[1] = rs.getString("fecha_inicio");
+                permiso[2] = rs.getString("fecha_fin");
+                permiso[3] = rs.getString("motivo");
+
+                datosPermisos.add(permiso);
+            }
+
+            rs.close();
+            pstmt.close();
+            conexionDB.Cerrar();
+        } catch (SQLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        DefaultTableModel model = (DefaultTableModel) TablaPermisos.getModel();
+        model.setRowCount(0);
+
+        for (Object[] permiso : datosPermisos) {
+            model.addRow(permiso);
+        }
+    }
+    
+    public void llenarCamposDesdeTabla() {
+        int filaSeleccionada = TablaPermisos.getSelectedRow(); // Obtener la fila seleccionada
+
+        if (filaSeleccionada >= 0) { // Verificar si hay una fila seleccionada
+            DefaultTableModel model = (DefaultTableModel) TablaPermisos.getModel();
+
+            // Obtener los valores de la fila seleccionada
+            String dni = model.getValueAt(filaSeleccionada, 0).toString();
+            String fechaInicioString = model.getValueAt(filaSeleccionada, 1).toString(); // Suponiendo que la fecha de inicio está en la columna 1
+            String fechaFinString = model.getValueAt(filaSeleccionada, 2).toString(); // Suponiendo que la fecha de fin está en la columna 2
+            String motivo = model.getValueAt(filaSeleccionada, 3).toString();
+            // Convertir las fechas de String a Date
+            SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+            try {
+                Date fechaInicioDate = formato.parse(fechaInicioString);
+                Date fechaFinDate = formato.parse(fechaFinString);
+
+                // Asignar los valores a los campos de texto
+                txtDNI.setText(dni);
+                txtMotivo.setText(motivo); // MotivoTextField es tu JTextField para el motivo
+                FechaInicio.setDate(fechaInicioDate); // FechaInicio es tu JDateChooser
+                FechaFin.setDate(fechaFinDate); // FechaFin es tu JDateChooser para la fecha de fin
+            } catch (ParseException e) {
+                e.printStackTrace();
+                // Manejo de errores si la conversión no es posible
+            }
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -30,22 +124,20 @@ public class AprobacionDeAusencias extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        FechaInicio1 = new com.toedter.calendar.JDateChooser();
+        FechaFin = new com.toedter.calendar.JDateChooser();
         FechaInicio = new com.toedter.calendar.JDateChooser();
-        txtHoraIni = new javax.swing.JTextField();
-        btnSolicitarPermiso1 = new javax.swing.JButton();
-        btnSolicitarPermiso = new javax.swing.JButton();
-        txtHoraIni1 = new javax.swing.JTextField();
+        txtDNI = new javax.swing.JTextField();
+        btnAceptar = new javax.swing.JButton();
+        btnRechazar = new javax.swing.JButton();
+        txtMotivo = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        DiasSolicitados = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblUsuarios = new javax.swing.JTable();
+        TablaPermisos = new javax.swing.JTable();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabel4.setText("Nombre:");
+        jLabel4.setText("DNI");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel1.setText("Fecha de inicio: ");
@@ -53,40 +145,44 @@ public class AprobacionDeAusencias extends javax.swing.JPanel {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel2.setText("Fecha de fin: ");
 
-        FechaInicio1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        FechaInicio1.setMinSelectableDate(new java.util.Date(-62135747903000L));
-        FechaInicio1.setPreferredSize(new java.awt.Dimension(95, 27));
+        FechaFin.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        FechaFin.setMinSelectableDate(new java.util.Date(-62135747903000L));
+        FechaFin.setPreferredSize(new java.awt.Dimension(95, 27));
 
         FechaInicio.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         FechaInicio.setMinSelectableDate(new java.util.Date(-62135747903000L));
         FechaInicio.setPreferredSize(new java.awt.Dimension(95, 27));
 
-        txtHoraIni.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtHoraIni.setPreferredSize(new java.awt.Dimension(59, 27));
+        txtDNI.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtDNI.setPreferredSize(new java.awt.Dimension(59, 27));
 
-        btnSolicitarPermiso1.setBackground(new java.awt.Color(15, 118, 210));
-        btnSolicitarPermiso1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnSolicitarPermiso1.setForeground(new java.awt.Color(255, 255, 255));
-        btnSolicitarPermiso1.setText("Aceptar");
+        btnAceptar.setBackground(new java.awt.Color(15, 118, 210));
+        btnAceptar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnAceptar.setForeground(new java.awt.Color(255, 255, 255));
+        btnAceptar.setText("Aceptar");
+        btnAceptar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAceptarActionPerformed(evt);
+            }
+        });
 
-        btnSolicitarPermiso.setBackground(new java.awt.Color(15, 118, 210));
-        btnSolicitarPermiso.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnSolicitarPermiso.setForeground(new java.awt.Color(255, 255, 255));
-        btnSolicitarPermiso.setText("Rechazar");
+        btnRechazar.setBackground(new java.awt.Color(15, 118, 210));
+        btnRechazar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnRechazar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRechazar.setText("Rechazar");
+        btnRechazar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRechazarActionPerformed(evt);
+            }
+        });
 
-        txtHoraIni1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        txtHoraIni1.setPreferredSize(new java.awt.Dimension(59, 27));
+        txtMotivo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        txtMotivo.setPreferredSize(new java.awt.Dimension(59, 27));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel5.setText("Motivo:");
 
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
-        jLabel6.setText("Total de dias solicitados:");
-
-        DiasSolicitados.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        DiasSolicitados.setText("0");
-
-        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+        TablaPermisos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -94,10 +190,10 @@ public class AprobacionDeAusencias extends javax.swing.JPanel {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "DNI", "Fecha Inicio", "Fecha Fin", "Motivo"
             }
         ));
-        jScrollPane1.setViewportView(tblUsuarios);
+        jScrollPane1.setViewportView(TablaPermisos);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -108,11 +204,11 @@ public class AprobacionDeAusencias extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(144, 144, 144)
-                        .addComponent(txtHoraIni, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5)
                         .addGap(76, 76, 76)
-                        .addComponent(txtHoraIni1, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(txtMotivo, javax.swing.GroupLayout.PREFERRED_SIZE, 346, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel4)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,52 +216,43 @@ public class AprobacionDeAusencias extends javax.swing.JPanel {
                             .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(FechaInicio1, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                            .addComponent(FechaFin, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                             .addComponent(FechaInicio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnSolicitarPermiso, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel6)
-                            .addComponent(btnSolicitarPermiso1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(19, 19, 19))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(DiasSolicitados)
-                        .addGap(117, 117, 117))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 58, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(btnRechazar, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAceptar, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19))
             .addComponent(jScrollPane1)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(11, 11, 11)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4)
-                            .addComponent(txtHoraIni, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtDNI, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(13, 13, 13)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
-                            .addComponent(txtHoraIni1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(txtMotivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnAceptar)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(FechaInicio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(FechaInicio1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnSolicitarPermiso1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSolicitarPermiso)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(DiasSolicitados)))
-                .addGap(16, 16, 16)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                            .addComponent(FechaFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(16, 16, 16))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnRechazar)
+                        .addGap(38, 38, 38)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 244, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -181,22 +268,62 @@ public class AprobacionDeAusencias extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
+        GenerarCorreoAprobacion enviarCorreo = new GenerarCorreoAprobacion();
+        UsuarioDaoImpl usuarioDaoImpl = new UsuarioDaoImpl();
+        Usuario usuario = new Usuario();
+        try {
+            usuario = usuarioDaoImpl.obtenerUsuarioPorDni(txtDNI.getText());
+        } catch (Exception ex) {
+            Logger.getLogger(AprobacionDeAusencias.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Date fechaSeleccionadaInicio = FechaInicio.getDate();
+        Date fechaSeleccionadaFin = FechaFin.getDate();
+        String fIni = obtenerFechaComoString(fechaSeleccionadaInicio);
+        String fFin = obtenerFechaComoString(fechaSeleccionadaFin);
+        
+        enviarCorreo.enviarCorreo(usuario.getCorreo(), fIni+"-"+fFin ,usuario.getNombre() ,txtMotivo.getText() ,"¡La solicitud ha sido aceptada!");
+    }//GEN-LAST:event_btnAceptarActionPerformed
+
+    private void btnRechazarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRechazarActionPerformed
+        GenerarCorreoAprobacion enviarCorreo = new GenerarCorreoAprobacion();
+        UsuarioDaoImpl usuarioDaoImpl = new UsuarioDaoImpl();
+        Usuario usuario = new Usuario();
+        try {
+            usuario = usuarioDaoImpl.obtenerUsuarioPorDni(txtDNI.getText());
+        } catch (Exception ex) {
+            Logger.getLogger(AprobacionDeAusencias.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Date fechaSeleccionadaInicio = FechaInicio.getDate();
+        Date fechaSeleccionadaFin = FechaFin.getDate();
+        String fIni = obtenerFechaComoString(fechaSeleccionadaInicio);
+        String fFin = obtenerFechaComoString(fechaSeleccionadaFin);
+        
+        enviarCorreo.enviarCorreo(usuario.getCorreo(), fIni+"-"+fFin ,usuario.getNombre() ,txtMotivo.getText() ,"La solicitud ha sido rechazada");
+    }//GEN-LAST:event_btnRechazarActionPerformed
+    
+    private static String obtenerFechaComoString(Date fecha) {
+        if (fecha != null) {
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+            return formato.format(fecha);
+        } else {
+            return "Fecha no seleccionada";
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel DiasSolicitados;
+    private com.toedter.calendar.JDateChooser FechaFin;
     private com.toedter.calendar.JDateChooser FechaInicio;
-    private com.toedter.calendar.JDateChooser FechaInicio1;
-    private javax.swing.JButton btnSolicitarPermiso;
-    private javax.swing.JButton btnSolicitarPermiso1;
+    private javax.swing.JTable TablaPermisos;
+    private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnRechazar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblUsuarios;
-    private javax.swing.JTextField txtHoraIni;
-    private javax.swing.JTextField txtHoraIni1;
+    private javax.swing.JTextField txtDNI;
+    private javax.swing.JTextField txtMotivo;
     // End of variables declaration//GEN-END:variables
 }

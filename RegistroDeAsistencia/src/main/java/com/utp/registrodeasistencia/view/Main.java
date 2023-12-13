@@ -21,6 +21,7 @@ public class Main extends javax.swing.JFrame {
     public static String dni;
     public static String contrasenia;
     public static String rol;
+    public static String dniIngresado; 
     /**
      * Creates new form Main
      */
@@ -159,6 +160,11 @@ public class Main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        dni = txtUsuario.getText() == null ? "" : txtUsuario.getText();
+        // Otro código para iniciar sesión
+        
+        // Almacenar el DNI ingresado en la variable estática
+        dniIngresado = dni;
         
         dni = txtUsuario.getText() == null ? "" : txtUsuario.getText();
         char[] passwordChars = txtContrasenia.getPassword();
