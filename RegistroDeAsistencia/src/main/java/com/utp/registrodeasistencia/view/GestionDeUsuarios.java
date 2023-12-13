@@ -45,16 +45,15 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        TablaUsuarios = new javax.swing.JTable();
+        tblUsuarios = new javax.swing.JTable();
         txtNombre = new javax.swing.JTextField();
         txtApellido = new javax.swing.JTextField();
         txtCorreo = new javax.swing.JTextField();
         txtContrasenia = new javax.swing.JTextField();
         cbxRol = new javax.swing.JComboBox<>();
-        GuardarUsuario = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
-        btnDesactivar = new javax.swing.JButton();
-        Limpiarcampo = new javax.swing.JButton();
+        btnLimpiar = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         cbxActivo = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
@@ -77,7 +76,7 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel4.setText("Rol:");
 
-        TablaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+        tblUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -88,31 +87,26 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(TablaUsuarios);
+        jScrollPane1.setViewportView(tblUsuarios);
 
-        txtNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtNombre.setPreferredSize(new java.awt.Dimension(59, 27));
 
-        txtApellido.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtApellido.setPreferredSize(new java.awt.Dimension(59, 27));
 
-        txtCorreo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtCorreo.setPreferredSize(new java.awt.Dimension(59, 27));
 
-        txtContrasenia.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtContrasenia.setPreferredSize(new java.awt.Dimension(59, 27));
 
-        cbxRol.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cbxRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Colaborador", "Administrador" }));
         cbxRol.setPreferredSize(new java.awt.Dimension(56, 27));
 
-        GuardarUsuario.setBackground(new java.awt.Color(15, 118, 210));
-        GuardarUsuario.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        GuardarUsuario.setForeground(new java.awt.Color(255, 255, 255));
-        GuardarUsuario.setText("Guardar");
-        GuardarUsuario.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardar.setBackground(new java.awt.Color(15, 118, 210));
+        btnGuardar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnGuardar.setForeground(new java.awt.Color(255, 255, 255));
+        btnGuardar.setText("Guardar");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                GuardarUsuarioActionPerformed(evt);
+                btnGuardarActionPerformed(evt);
             }
         });
 
@@ -121,25 +115,14 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
         btnModificar.setForeground(new java.awt.Color(255, 255, 255));
         btnModificar.setText("Modificar");
 
-        btnDesactivar.setBackground(new java.awt.Color(15, 118, 210));
-        btnDesactivar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        btnDesactivar.setForeground(new java.awt.Color(255, 255, 255));
-        btnDesactivar.setText("Desactivar");
-
-        Limpiarcampo.setBackground(new java.awt.Color(15, 118, 210));
-        Limpiarcampo.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        Limpiarcampo.setForeground(new java.awt.Color(255, 255, 255));
-        Limpiarcampo.setText("Limpiar");
-        Limpiarcampo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LimpiarcampoActionPerformed(evt);
-            }
-        });
+        btnLimpiar.setBackground(new java.awt.Color(15, 118, 210));
+        btnLimpiar.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setText("Limpiar");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel5.setText("Estado:");
 
-        cbxActivo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         cbxActivo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Activo", "Inactivo" }));
         cbxActivo.setPreferredSize(new java.awt.Dimension(56, 27));
 
@@ -149,7 +132,6 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
         jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel7.setText("Dni:");
 
-        txtDni.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtDni.setPreferredSize(new java.awt.Dimension(59, 27));
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
@@ -180,7 +162,7 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btnDesactivar, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
+                                .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -188,13 +170,12 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(GuardarUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(btnGuardar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(Limpiarcampo, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -203,7 +184,7 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
                                 .addComponent(txtDni, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel8)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                                 .addComponent(cbHorario, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -223,7 +204,7 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(GuardarUsuario))
+                    .addComponent(btnGuardar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -234,10 +215,9 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDesactivar))
+                    .addComponent(btnLimpiar))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Limpiarcampo)
                     .addComponent(jLabel6)
                     .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -253,7 +233,7 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
                     .addComponent(jLabel8)
                     .addComponent(cbHorario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -300,11 +280,11 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
         cbxRol.setSelectedIndex(0);
     }//GEN-LAST:event_LimpiarcampoActionPerformed
 
-    private void TablaUsuarios(){
+   private void TablaUsuarios(){
       
     ConnectionDB cn = new ConnectionDB();
    // Connection conexion = cn.Conectar();
-     
+   /*  
      String [] nombresColumnas ={"DNI","Nombre", "Apellido", "Correo"}; 
      DefaultTableModel modelo = new DefaultTableModel(null, nombresColumnas); 
      String sql = "select * from usuario" ; 
@@ -314,7 +294,7 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
       TablaUsuarios.setModel(modelo);
       String [] registros = new String[3];
        
-     /* try {
+      try {
           st = conexion.createStatement();
       
           ResultSet result = st.executeQuery(sql);
@@ -331,10 +311,8 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
 */    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton GuardarUsuario;
-    private javax.swing.JButton Limpiarcampo;
-    private javax.swing.JTable TablaUsuarios;
-    private javax.swing.JButton btnDesactivar;
+    private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JComboBox<String> cbHorario;
     private javax.swing.JComboBox<String> cbxActivo;
@@ -349,6 +327,7 @@ public class GestionDeUsuarios extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblUsuarios;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtContrasenia;
     private javax.swing.JTextField txtCorreo;
