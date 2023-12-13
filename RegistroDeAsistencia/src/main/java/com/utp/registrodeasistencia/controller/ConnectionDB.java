@@ -20,7 +20,7 @@ public class ConnectionDB {
     private final String DB_URL = "jdbc:mysql://localhost:3306/bd_asistencia";
     
     private final String USER = "root";
-    private final String PASS = "L1nux";
+    private final String PASS = "admin";
     
     public void Conectar() throws SQLException, ClassNotFoundException{
         conexion = DriverManager.getConnection(DB_URL, USER, PASS);

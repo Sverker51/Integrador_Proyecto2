@@ -8,6 +8,9 @@ import com.utp.registrodeasistencia.controller.HorarioDaoImple;
 import com.utp.registrodeasistencia.interfaces.HorarioDao;
 import com.utp.registrodeasistencia.model.Usuario;
 import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFrame;
@@ -24,9 +27,9 @@ import java.util.List;
 public class Horario extends javax.swing.JPanel {
 
     private DefaultTableModel modeloTabla;
-
+    private int indice;
     /**
-     * Creates new form 
+     * Creates new form
      */
     public Horario() {
         initComponents();
@@ -153,6 +156,11 @@ public class Horario extends javax.swing.JPanel {
                 "ID", "Estado", "Descripción", "Hora Inicio", "Hora Fin", "Area"
             }
         ));
+        tbHorario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbHorarioMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbHorario);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -310,23 +318,110 @@ public class Horario extends javax.swing.JPanel {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        
+        com.utp.registrodeasistencia.model.Horario horario = new com.utp.registrodeasistencia.model.Horario();
+        HorarioDaoImple horarioDao = new HorarioDaoImple();
+
+        int indiceArea = cbxArea.getSelectedIndex();
+        int indiceEstado = cbxestado.getSelectedIndex();
+        int inidiceMeridianoIni = cbxMeridiemIni.getSelectedIndex();
+        int inidiceMeridianoFin = cbxMeridiemFin.getSelectedIndex();
+        String area = (String) cbxArea.getItemAt(indiceArea);
+        String estadoString = (String) cbxestado.getItemAt(indiceEstado);
+        String meridianoIni = (String) cbxMeridiemIni.getItemAt(inidiceMeridianoIni);
+        String meridianoFin = (String) cbxMeridiemFin.getItemAt(inidiceMeridianoFin);
+
+        String horaInicioString = txtHoraIni.getText().toString() + ":" + txtMinIni.getText().toString() + " " + meridianoIni;
+        String horaFinString = txtHoraFin.getText().toString() + ":" + txtMinFin.getText().toString() + " " + meridianoFin;
+
+        boolean estado = estadoString.equals("Activo") ? Boolean.TRUE : Boolean.FALSE;
+
+        Time horaInicio = horarioDao.obtenerHora(horaInicioString);
+        Time horaFin = horarioDao.obtenerHora(horaFinString);
+
+        horario.setHorarioId(indice);
+        horario.setEstado(estado);
+        horario.setDescripcion(tbxDescripcion.getText().toString());
+        horario.setHoraInicio(horaInicio);
+        horario.setHoraFin(horaFin);
+        horario.setArea(area);
+
+        try {
+            horarioDao.modificar(horario);
+            JOptionPane.showMessageDialog(null, "Horario Actualizado", "Horario Actualizado Correctamente", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception ex) {
+            Logger.getLogger(Horario.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        limpiar();
+        iniciarTabla();
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void tbHorarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbHorarioMouseClicked
         if (tbHorario.getSelectedRow() > -1) {
-            int id = (int) tbHorario.getValueAt(tbHorario.getSelectedRow(), 0);
+
+            int id = Integer.parseInt(tbHorario.getValueAt(tbHorario.getSelectedRow(), 0).toString());
+            indice = id;
             HorarioDaoImple horarioDao = new HorarioDaoImple();
-            try {
-                System.out.println(id);
+            try {                
                 com.utp.registrodeasistencia.model.Horario horario = horarioDao.getHorarioById(id);
-                txtHoraIni.setText(horario.getHoraInicio().toString());
+
+                String horaInicio = obtenerHora(horario.getHoraInicio());
+                String minutosInicio = obtenerMinutos(horario.getHoraInicio());
+                String horaFin = obtenerHora(horario.getHoraFin());
+                String minutosFin = obtenerMinutos(horario.getHoraFin());
+                String meridianoInicio = actualizarAMPM(horario.getHoraInicio().toString());
+                String meridianoFin = actualizarAMPM(horario.getHoraFin().toString());
+                String estado = horario.isEstado() == true ? "Activo" : "Inactivo";
+                String area = horario.getArea();
+                String descripcion = horario.getDescripcion();
+
+                txtHoraIni.setText(horaInicio);
+                txtMinIni.setText(minutosInicio);
+                txtHoraFin.setText(horaFin);
+                txtMinFin.setText(minutosFin);
+                cbxMeridiemIni.setSelectedItem(meridianoInicio);
+                cbxMeridiemFin.setSelectedItem(meridianoFin);
+                cbxestado.setSelectedItem(estado);
+                cbxArea.setSelectedItem(area);
+                tbxDescripcion.setText(descripcion);
+
             } catch (Exception ex) {
                 Logger.getLogger(Horario.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
         } else {
             JOptionPane.showMessageDialog(null, "Debe seleccionar el horario a eliminar.", "AVISO", JOptionPane.ERROR_MESSAGE);
         }
+    }//GEN-LAST:event_tbHorarioMouseClicked
+    
+    private static String obtenerHora(Time time) {
+        Date date = new Date(time.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("HH");
+        return sdf.format(date);
+    }
 
-    }//GEN-LAST:event_btnModificarActionPerformed
+    private static String obtenerMinutos(Time time) {
+        Date date = new Date(time.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("mm");
+        return sdf.format(date);
+    }
 
+    private String actualizarAMPM(String horaTexto) {
+        String respuesta = "AM";
+        try {
+            // Parsear la hora ingresada
+            LocalTime hora = LocalTime.parse(horaTexto);
+
+            // Obtener la parte de la tarde (AM o PM)
+            String ampm = hora.getHour() < 12 ? "AM" : "PM";
+            respuesta = ampm;
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Formato de hora incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        return respuesta;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnGuardar;

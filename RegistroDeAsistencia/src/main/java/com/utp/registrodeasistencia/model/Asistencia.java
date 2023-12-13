@@ -21,9 +21,8 @@ import java.time.temporal.Temporal;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
-import static jdk.jfr.internal.event.EventConfiguration.duration;
+
 import lombok.Data;
-import static sun.security.krb5.Config.duration;
 
 /**
  *

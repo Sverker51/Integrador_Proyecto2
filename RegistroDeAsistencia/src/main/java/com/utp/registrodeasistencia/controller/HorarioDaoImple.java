@@ -46,7 +46,7 @@ public class HorarioDaoImple extends ConnectionDB implements HorarioDao {
 
     @Override
     public void modificar(Horario horario) throws Exception {
-        String sql = "UPDATE horario SET estado = ?, descripcion = ?, hora_inicio = ?, hora_fin = ? WHERE horario_id = ?";
+        String sql = "UPDATE horario SET estado = ?, descripcion = ?, hora_inicio = ?, hora_fin = ?, area = ? WHERE horario_id = ?";
 
         try {
             this.Conectar();
@@ -56,7 +56,8 @@ public class HorarioDaoImple extends ConnectionDB implements HorarioDao {
             preparedStatement.setString(2, horario.getDescripcion());
             preparedStatement.setTime(3, horario.getHoraInicio());
             preparedStatement.setTime(4, horario.getHoraFin());
-            preparedStatement.setInt(5, horario.getHorarioId());
+            preparedStatement.setString(5, horario.getArea());
+            preparedStatement.setInt(6, horario.getHorarioId());
 
             int filasModificadas = preparedStatement.executeUpdate();
 
